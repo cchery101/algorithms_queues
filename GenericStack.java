@@ -1,20 +1,20 @@
 
-public class GenericStack<T>
+public class GenericStack<Item>
 {
-    private Node<T> first;
+    private Node<Item> first;
 
-    public T pop()
+    public Item pop()
     {
         if (first == null)
             { throw new java.lang.IndexOutOfBoundsException(); }
-        T firstval = first.item;
+        Item firstval = first.item;
         first = first.next;
         return firstval;
     }
 
-    public void push(T s)
+    public void push(Item s)
     {
-        Node<T> newfirst = new Node<T>();
+        Node<Item> newfirst = new Node<Item>();
         newfirst.item = s;
         newfirst.next = first;
         first = newfirst;
@@ -32,10 +32,10 @@ public class GenericStack<T>
         }
     }
 
-    private class Node<T>
+    private class Node<Item>
     {
-        T item;
-        Node next;
+        Item item;
+        Node<Item> next;
     }
 }
 

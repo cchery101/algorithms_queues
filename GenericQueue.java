@@ -17,7 +17,7 @@ public class GenericQueue<Item>
 
     public void enqueue(Item s)
     {
-        Node newlast = new Node();
+        Node<Item> newlast = new Node<Item>();
         newlast.item = s;
         newlast.next = null;
         if (first == null) first = newlast;
@@ -27,19 +27,19 @@ public class GenericQueue<Item>
 
     public static void main(String[] args)
     {
-        GenericQueue<String> queue = new GenericQueue<String>();
+        GenericQueue<Integer> queue = new GenericQueue<Integer>();
         while (!StdIn.isEmpty())
         {
             String s = StdIn.readString();
             //StdOut.print(s);
             if (s.equals("-"))  System.out.println(queue.dequeue());
-            else                queue.enqueue(s);
+            else                queue.enqueue(Integer.parseInt(s));
         }
     }
 
     private class Node<Item>
     {
         Item item;
-        Node next;
+        Node<Item> next;
     }
 }
