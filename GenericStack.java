@@ -1,20 +1,20 @@
 
-public class StackOfStrings
+public class GenericStack<T>
 {
-    private Node first;
+    private Node<T> first;
 
-    public String pop()
+    public T pop()
     {
         if (first == null)
             { throw new java.lang.IndexOutOfBoundsException(); }
-        String firstval = first.item;
+        T firstval = first.item;
         first = first.next;
         return firstval;
     }
 
-    public void push(String s)
+    public void push(T s)
     {
-        Node newfirst = new Node();
+        Node<T> newfirst = new Node<T>();
         newfirst.item = s;
         newfirst.next = first;
         first = newfirst;
@@ -22,7 +22,7 @@ public class StackOfStrings
 
     public static void main(String[] args)
     {
-        StackOfStrings stack = new StackOfStrings();
+        GenericStack<String> stack = new GenericStack<String>();
         while (!StdIn.isEmpty())
         {
             String s = StdIn.readString();
@@ -32,9 +32,9 @@ public class StackOfStrings
         }
     }
 
-    private class Node
+    private class Node<T>
     {
-        String item;
+        T item;
         Node next;
     }
 }
