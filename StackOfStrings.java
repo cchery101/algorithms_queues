@@ -1,22 +1,27 @@
 
 public class StackOfStrings
 {
-    private StringNode firstnode;
+    private Node first;
 
     public StackOfStrings()
-        { firstnode = null; }
+        { first = null; }
 
     public String pop()
     {
-        if (firstnode == null)
+        if (first == null)
             { throw new java.lang.IndexOutOfBoundsException(); }
-        String popitem = firstnode.getdata();
-        firstnode = firstnode.getnext();
-        return popitem;
+        String firstval = first.item;
+        first = first.next;
+        return firstval;
     }
 
     public void push(String s)
-        { firstnode = new StringNode(s, firstnode); }
+    {
+        Node newfirst = new Node();
+        newfirst.item = s;
+        newfirst.next = first;
+        first = newfirst;
+    }
 
     public static void main(String[] args)
     {
@@ -28,6 +33,12 @@ public class StackOfStrings
             if (s.equals("-"))  System.out.println(stack.pop());
             else                stack.push(s);
         }
+    }
+
+    private class Node
+    {
+        String item;
+        Node next;
     }
 }
 
