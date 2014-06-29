@@ -1,21 +1,21 @@
 
-public class QueueOfStrings
+public class GenericQueue<Item>
 {
-    private Node first;
-    private Node last;
+    private Node<Item> first;
+    private Node<Item> last;
 
-    public String dequeue()
+    public Item dequeue()
     {
         if (first == null)
             { throw new java.lang.IndexOutOfBoundsException(); }
-        String firstval = first.item;
+        Item firstval = first.item;
         // check if this is the last item
         if (first.next == null) { first = null; last = null; }
         else                      first = first.next;
         return firstval;
     }
 
-    public void enqueue(String s)
+    public void enqueue(Item s)
     {
         Node newlast = new Node();
         newlast.item = s;
@@ -27,7 +27,7 @@ public class QueueOfStrings
 
     public static void main(String[] args)
     {
-        QueueOfStrings queue = new QueueOfStrings();
+        GenericQueue<String> queue = new GenericQueue<String>();
         while (!StdIn.isEmpty())
         {
             String s = StdIn.readString();
@@ -37,9 +37,9 @@ public class QueueOfStrings
         }
     }
 
-    private class Node
+    private class Node<Item>
     {
-        String item;
+        Item item;
         Node next;
     }
 }
