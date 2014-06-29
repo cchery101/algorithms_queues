@@ -18,7 +18,9 @@ public class StringNode
 
     public static void main(String[] args)
     {
-        StringNode mynode = new StringNode(args[0], null);
-        System.out.println(mynode.getdata());
+        StringNode lastnode = new StringNode("End", null);
+        StringNode firstnode = new StringNode("Start", lastnode);
+        StdOut.print(firstnode.getdata());
+        StdOut.print(firstnode.getnext().getdata());
     }
 }
