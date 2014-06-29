@@ -3,9 +3,6 @@ public class StackOfStrings
 {
     private Node first;
 
-    public StackOfStrings()
-        { first = null; }
-
     public String pop()
     {
         if (first == null)
