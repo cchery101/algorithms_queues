@@ -1,15 +1,15 @@
 
 import java.util.Arrays;
 
-public class GenericQueueArrayResize
+public class GenericQueueArrayResize<Item>
 {
     private int first;
     private int numelements;
-    private Integer[] data;
+    private Object[] data;
 
     public GenericQueueArrayResize()
     {
-        data = new Integer[1];
+        data = new Object[1];
         first = 0;
         numelements = 0;
     }
@@ -18,7 +18,7 @@ public class GenericQueueArrayResize
     {
         System.out.println(String.format("Resizing array to %d", newsize));
         // resize the array
-        Integer[] newdata = new Integer[newsize];
+        Object[] newdata = new Object[newsize];
         for (int i = 0; i < numelements; i++)
         {
             newdata[i] = data[(first + i) % data.length];
@@ -28,11 +28,11 @@ public class GenericQueueArrayResize
         data = newdata;  // or does this make all of data go out of scope?
     }
 
-    public Integer dequeue()
+    public Item dequeue()
     {
         if (numelements == 0)
             { throw new java.lang.IndexOutOfBoundsException(); }
-        int firstval = data[first];
+        Item firstval = (Item)data[first];
         data[first] = null;
         numelements -= 1;
         // check if this is the last item
@@ -45,7 +45,7 @@ public class GenericQueueArrayResize
         return firstval;
     }
 
-    public void enqueue(Integer s)
+    public void enqueue(Item s)
     {
         // check if array is full
         if (numelements >= data.length) resize(data.length * 2);
@@ -55,7 +55,7 @@ public class GenericQueueArrayResize
 
     public static void main(String[] args)
     {
-        GenericQueueArrayResize queue = new GenericQueueArrayResize();
+        GenericQueueArrayResize<Integer> queue = new GenericQueueArrayResize<Integer>();
         System.out.println(Arrays.toString(queue.data));
         while (!StdIn.isEmpty())
         {
