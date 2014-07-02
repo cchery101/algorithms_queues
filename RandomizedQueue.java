@@ -22,6 +22,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     // resize array as needed
     private void resize(int newsize)
     {
+        if (newsize < 1) return;
         Object[] newdata = new Object[newsize];
         for (int i = 0; i < numelements; i++)
         {
@@ -86,31 +87,50 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     public static void main(String[] args)
     {
         RandomizedQueue<Integer> randqueue = new RandomizedQueue<Integer>();
+        int N = Integer.parseInt(args[0]);
+        double prob = Double.parseDouble(args[1]);
         // testing enqueue-dequeue
         System.out.println("********** Testing Enqueue-Dequeue **********");
-        while (!StdIn.isEmpty())
+        for (int i = 0; i < N; i++)
         {
-            String s = StdIn.readString();
-            if (s.equals("-"))  System.out.println(randqueue.dequeue());
-            else                randqueue.enqueue(Integer.parseInt(s));
-            System.out.println(Arrays.toString(randqueue.data));
+            if (StdRandom.uniform() < prob)
+            {
+                try { randqueue.enqueue(1); }
+                catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                    System.out.println(Arrays.toString(randqueue.data));
+                    throw new java.lang.ArrayIndexOutOfBoundsException();
+                }
+            }
+            else
+            {
+                try { randqueue.dequeue(); }
+                catch (java.util.NoSuchElementException e)
+                    { /* Ignore empty queue exception */ }
+            }
         }
+        //while (!StdIn.isEmpty())
+        //{
+        //    String s = StdIn.readString();
+        //    if (s.equals("-"))  System.out.println(randqueue.dequeue());
+        //    else                randqueue.enqueue(Integer.parseInt(s));
+        //    System.out.println(Arrays.toString(randqueue.data));
+        //}
         // testing sample
-        System.out.println("********** Testing Sampling **********");
-        for (int i = 0; i < 10; i++)
-        {
-            System.out.println(randqueue.sample());
-            System.out.println(Arrays.toString(randqueue.data));
-        }
+        //System.out.println("********** Testing Sampling **********");
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    System.out.println(randqueue.sample());
+        //    System.out.println(Arrays.toString(randqueue.data));
+        //}
         // testing iterator
-        System.out.println("********** Testing ForEach Iterator **********");
-        for (int value: randqueue) System.out.println(value);
+        //System.out.println("********** Testing ForEach Iterator **********");
+        //for (int value: randqueue) System.out.println(value);
         // testing iterator
-        System.out.println("********** Testing Parralel Iterators **********");
-        Iterator<Integer> iterator1 = randqueue.iterator();
-        Iterator<Integer> iterator2 = randqueue.iterator();
-        while (iterator1.hasNext())
-            System.out.println(String.format("%1$d %2$d",
-                iterator1.next(), iterator2.next()));
+        //System.out.println("********** Testing Parralel Iterators **********");
+        //Iterator<Integer> iterator1 = randqueue.iterator();
+        //Iterator<Integer> iterator2 = randqueue.iterator();
+        //while (iterator1.hasNext())
+        //    System.out.println(String.format("%1$d %2$d",
+        //        iterator1.next(), iterator2.next()));
     }
 }
