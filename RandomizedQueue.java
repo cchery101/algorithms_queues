@@ -22,7 +22,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     // resize array as needed
     private void resize(int newsize)
     {
-        Object newdata[] = new Object[newsize];
+        Object[] newdata = new Object[newsize];
         for (int i = 0; i < numelements; i++)
         {
             newdata[i] = data[i];
@@ -43,7 +43,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     {
         if (numelements == 0) throw new java.util.NoSuchElementException();
         int idx = StdRandom.uniform(numelements);
-        Item randval = (Item)data[idx];
+        Item randval = (Item) data[idx];
         data[idx] = data[numelements - 1];
         data[numelements - 1] = null;
         numelements -= 1;
@@ -54,20 +54,21 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     public Item sample()
     {
         if (numelements == 0) throw new java.util.NoSuchElementException();
-        return (Item)data[StdRandom.uniform(numelements)];
+        return (Item) data[StdRandom.uniform(numelements)];
     }
     // return an independent iterator over items in random order
     public Iterator<Item> iterator()
         { return new RandomizedQueueIterator(); }
     private class RandomizedQueueIterator implements Iterator<Item>
     {
-        int current = 0;
-        int[] iterorder;
+        private int current = 0;
+        private int[] iterorder;
         public RandomizedQueueIterator()
         {
             if (numelements > 0) {
                 iterorder = new int[numelements];
-                for (int i = 0; i < numelements; i++) iterorder[i] = i;
+                for (int i = 0; i < numelements; i++)
+                    iterorder[i] = i;
                 StdRandom.shuffle(iterorder, 0, numelements - 1);
             }
         }
@@ -76,7 +77,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
         public Item next()
         {
             if (current >= numelements) throw new java.util.NoSuchElementException();
-            Item item = (Item)data[iterorder[current]];
+            Item item = (Item) data[iterorder[current]];
             current = current + 1;
             return item;
         }
@@ -103,12 +104,13 @@ public class RandomizedQueue<Item> implements Iterable<Item>
         }
         // testing iterator
         System.out.println("********** Testing ForEach Iterator **********");
-        for (Integer value: randqueue) System.out.println(value);
+        for (int value: randqueue) System.out.println(value);
         // testing iterator
         System.out.println("********** Testing Parralel Iterators **********");
         Iterator<Integer> iterator1 = randqueue.iterator();
         Iterator<Integer> iterator2 = randqueue.iterator();
         while (iterator1.hasNext())
-            System.out.println(String.format("%1$d %2$d", iterator1.next(), iterator2.next()));
+            System.out.println(String.format("%1$d %2$d",
+                iterator1.next(), iterator2.next()));
     }
 }

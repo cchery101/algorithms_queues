@@ -1,6 +1,5 @@
 
 import java.util.Iterator;
-import java.util.Arrays;
 
 public class Deque<Item> implements Iterable<Item>
 {
@@ -76,7 +75,7 @@ public class Deque<Item> implements Iterable<Item>
         { return new DequeIterator(); }
     private class DequeIterator implements Iterator<Item>
     {
-        Node<Item> current = first;
+        private Node<Item> current = first;
         public boolean hasNext()    { return (current != null); }
         public void remove()        { throw new UnsupportedOperationException(); }
         public Item next()
@@ -90,9 +89,9 @@ public class Deque<Item> implements Iterable<Item>
     // item storage
     private class Node<Item>
     {
-        Item item;
-        Node<Item> next;
-        Node<Item> prev;
+        private Item item;
+        private Node<Item> next;
+        private Node<Item> prev;
     }
     // unit testing
     public static void main(String[] args)
@@ -124,7 +123,7 @@ public class Deque<Item> implements Iterable<Item>
             deque.addLast(-i);
         }
         System.out.println("Expect 5 to -5");
-        for (Integer value: deque)
+        for (int value: deque)
             System.out.print(String.format("%d ", value));
         // testing iterator
         System.out.println("");
@@ -132,7 +131,8 @@ public class Deque<Item> implements Iterable<Item>
         Iterator<Integer> iterator1 = deque.iterator();
         Iterator<Integer> iterator2 = deque.iterator();
         while (iterator1.hasNext())
-            System.out.println(String.format("%1$d %2$d", iterator1.next(), iterator2.next()));
+            System.out.println(String.format("%1$d %2$d",
+                iterator1.next(), iterator2.next()));
         System.out.println("");
     }
 }
