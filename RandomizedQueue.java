@@ -2,7 +2,8 @@
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class RandomizedQueue<Item> implements Iterable<Item> {
+public class RandomizedQueue<Item> implements Iterable<Item>
+{
     private int numelements;
     private Object[] data;
 
@@ -105,6 +106,5 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         Iterator<Integer> iterator2 = randqueue.iterator();
         while (iterator1.hasNext())
             System.out.println(String.format("%1$d %2$d", iterator1.next(), iterator2.next()));
-
     }
 }
