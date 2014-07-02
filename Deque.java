@@ -1,12 +1,136 @@
-public class Deque<Item> implements Iterable<Item> {
-   public Deque()                           // construct an empty deque
-   public boolean isEmpty()                 // is the deque empty?
-   public int size()                        // return the number of items on the deque
-   public void addFirst(Item item)          // insert the item at the front
-   public void addLast(Item item)           // insert the item at the end
-   public Item removeFirst()                // delete and return the item at the front
-   public Item removeLast()                 // delete and return the item at the end
-   public Iterator<Item> iterator()         // return an iterator over items in order from front to end
-   public static void main(String[] args)   // unit testing
-   // use methods from GenericQueue to implement this - linked style
+
+import java.util.Iterator;
+import java.util.Arrays;
+
+public class Deque<Item> implements Iterable<Item>
+{
+    public Node<Item> first;
+    public Node<Item> last;
+    // construct an empty deque
+    public Deque()
+    {
+
+    }
+    // is the deque empty?
+    public boolean isEmpty()
+        { return first == null; }
+    // return the number of items on the deque
+    public int size()
+    {
+        if (first == null) return 0;
+        int itemcount = 1;
+        Node<Item> current = first;
+        while (current.next != null)
+        {
+            current = current.next;
+            itemcount++;
+        }
+        return itemcount;
+    }
+    // insert the item at the front
+    public void addFirst(Item item)
+    {
+        Node<Item> newnode = new Node<Item>();
+        newnode.item = item;
+        newnode.next = first;
+        newnode.prev = null;
+        if (first != null)  first.prev = newnode;
+        first = newnode;
+        if (last == null)   last = newnode;
+    }
+    // insert the item at the end
+    public void addLast(Item item)
+    {
+        Node<Item> newnode = new Node<Item>();
+        newnode.item = item;
+        newnode.next = null;
+        newnode.prev = last;
+        if (last != null) last.next = newnode;
+        last = newnode;
+        if (first == null)  first = newnode;
+    }
+    // delete and return the item at the front
+    public Item removeFirst()
+    {
+        if (first == null) throw new java.util.NoSuchElementException();
+        Item item = first.item;
+        first = first.next;
+        if (first != null)  first.prev = null;
+        else                last = null;
+        return item;
+    }
+    // delete and return the item at the end
+    public Item removeLast()
+    {
+        if (last == null) throw new java.util.NoSuchElementException();
+        Item item = last.item;
+        last = last.prev;
+        if (last != null)   last.next = null;
+        else                first = null;
+        return item;
+    }
+    // return an iterator over items in order from front to end
+    public Iterator<Item> iterator()
+        { return new DequeIterator(); }
+    private class DequeIterator implements Iterator<Item>
+    {
+        Node<Item> current = first;
+        public boolean hasNext()    { return (current != null); }
+        public void remove()        { throw new UnsupportedOperationException(); }
+        public Item next()
+        {
+            if (current == null) throw new java.util.NoSuchElementException();
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
+    // item storage
+    private class Node<Item>
+    {
+        Item item;
+        Node<Item> next;
+        Node<Item> prev;
+    }
+    // unit testing
+    public static void main(String[] args)
+    {
+        Deque<Integer> deque = new Deque<Integer>();
+        // testing add/remove from start/end
+        System.out.println("********** Testing Sequence Start @ First **********");
+        for (int i = 1; i <= 5; i++) {
+            deque.addFirst(i);
+            deque.addLast(-i);
+        }
+        System.out.println("Expect 5 to -5");
+        while (deque.size() > 0)
+            System.out.print(String.format("%d ", deque.removeFirst()));
+        System.out.println("");
+        System.out.println("********** Testing Sequence Start @ Last **********");
+        for (int i = 1; i <= 5; i++) {
+            deque.addLast(-i);
+            deque.addFirst(i);
+        }
+        System.out.println("Expect -5 to 5");
+        while (deque.size() > 0)
+            System.out.print(String.format("%d ", deque.removeLast()));
+        System.out.println("");
+        // testing iterator
+        System.out.println("********** Testing ForEach Iterator **********");
+        for (int i = 1; i <= 5; i++) {
+            deque.addFirst(i);
+            deque.addLast(-i);
+        }
+        System.out.println("Expect 5 to -5");
+        for (Integer value: deque)
+            System.out.print(String.format("%d ", value));
+        // testing iterator
+        System.out.println("");
+        System.out.println("********** Testing Parralel Iterators **********");
+        Iterator<Integer> iterator1 = deque.iterator();
+        Iterator<Integer> iterator2 = deque.iterator();
+        while (iterator1.hasNext())
+            System.out.println(String.format("%1$d %2$d", iterator1.next(), iterator2.next()));
+        System.out.println("");
+    }
 }
