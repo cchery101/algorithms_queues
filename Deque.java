@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class Deque<Item> implements Iterable<Item>
 {
-    public Node<Item> first;
-    public Node<Item> last;
+    private Node<Item> first;
+    private Node<Item> last;
     // construct an empty deque
     public Deque()
     {
@@ -30,6 +30,7 @@ public class Deque<Item> implements Iterable<Item>
     // insert the item at the front
     public void addFirst(Item item)
     {
+        if (item == null) throw new NullPointerException();
         Node<Item> newnode = new Node<Item>();
         newnode.item = item;
         newnode.next = first;
@@ -41,6 +42,7 @@ public class Deque<Item> implements Iterable<Item>
     // insert the item at the end
     public void addLast(Item item)
     {
+        if (item == null) throw new NullPointerException();
         Node<Item> newnode = new Node<Item>();
         newnode.item = item;
         newnode.next = null;
