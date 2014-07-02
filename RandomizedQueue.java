@@ -47,6 +47,7 @@ public class RandomizedQueue<Item> implements Iterable<Item>
         data[idx] = data[numelements - 1];
         data[numelements - 1] = null;
         numelements -= 1;
+        if (numelements <= data.length / 4) resize(data.length / 2);
         return randval;
     }
     // return (but do not delete) a random item
@@ -61,11 +62,14 @@ public class RandomizedQueue<Item> implements Iterable<Item>
     private class RandomizedQueueIterator implements Iterator<Item>
     {
         int current = 0;
-        int[] iterorder = new int[numelements];
+        int[] iterorder;
         public RandomizedQueueIterator()
         {
-            for (int i = 0; i < numelements; i++) iterorder[i] = i;
-            StdRandom.shuffle(iterorder, 0, numelements - 1);
+            if (numelements > 0) {
+                iterorder = new int[numelements];
+                for (int i = 0; i < numelements; i++) iterorder[i] = i;
+                StdRandom.shuffle(iterorder, 0, numelements - 1);
+            }
         }
         public boolean hasNext()    { return current < numelements; }
         public void remove()        { throw new UnsupportedOperationException(); }
