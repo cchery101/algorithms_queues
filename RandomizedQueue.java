@@ -32,6 +32,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item)
     {
+        if (item == null) throw new NullPointerException();
         if (numelements == data.length) resize(data.length * 2);
         data[numelements] = item;
         numelements += 1;
@@ -39,8 +40,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // delete and return a random item
     public Item dequeue()
     {
-        if (numelements == 0)
-            { throw new java.lang.IndexOutOfBoundsException(); }
+        if (numelements == 0) throw new java.util.NoSuchElementException();
         int idx = StdRandom.uniform(numelements);
         Item randval = (Item)data[idx];
         data[idx] = data[numelements - 1];
@@ -51,8 +51,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return (but do not delete) a random item
     public Item sample()
     {
-        if (numelements == 0)
-            { throw new java.lang.IndexOutOfBoundsException(); }
+        if (numelements == 0) throw new java.util.NoSuchElementException();
         return (Item)data[StdRandom.uniform(numelements)];
     }
     // return an independent iterator over items in random order
@@ -67,10 +66,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             for (int i = 0; i < numelements; i++) iterorder[i] = i;
             StdRandom.shuffle(iterorder, 0, numelements - 1);
         }
-        public boolean hasNext()   { return current < numelements; }
-        public void remove()    { /* not supported */           }
+        public boolean hasNext()    { return current < numelements; }
+        public void remove()        { throw new UnsupportedOperationException(); }
         public Item next()
         {
+            if (current >= numelements) throw new java.util.NoSuchElementException();
             Item item = (Item)data[iterorder[current]];
             current = current + 1;
             return item;
