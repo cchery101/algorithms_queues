@@ -31,7 +31,7 @@ public class GenericQueueArrayResize<Item>
     public Item dequeue()
     {
         if (numelements == 0)
-            { throw new java.lang.IndexOutOfBoundsException(); }
+            { throw new java.util.NoSuchElementException(); }
         Item firstval = (Item)data[first];
         data[first] = null;
         numelements -= 1;
@@ -55,18 +55,28 @@ public class GenericQueueArrayResize<Item>
 
     public static void main(String[] args)
     {
-        GenericQueueArrayResize<Integer> queue = new GenericQueueArrayResize<Integer>();
-        System.out.println(Arrays.toString(queue.data));
-        while (!StdIn.isEmpty())
+        GenericQueueArrayResize<Integer> queue =
+            new GenericQueueArrayResize<Integer>();
+        int N = Integer.parseInt(args[0]);
+        double prob = Double.parseDouble(args[1]);
+        // testing enqueue-dequeue
+        System.out.println("********** Testing Enqueue-Dequeue **********");
+        for (int i = 0; i < N; i++)
         {
-            String s = StdIn.readString();
-            //StdOut.print(s);
-            if (s.equals("-"))  queue.dequeue();
-            else                queue.enqueue(Integer.parseInt(s));
-            System.out.println(Arrays.toString(queue.data));
-            System.out.println(String.format(
-                "First: %1$d    NumElements: %2$d   ArrayLength: %3$d",
-                queue.first, queue.numelements, queue.data.length));
+            if (StdRandom.uniform() < prob)
+            {
+                try { queue.enqueue(1); }
+                catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                    System.out.println(Arrays.toString(queue.data));
+                    throw new java.lang.ArrayIndexOutOfBoundsException();
+                }
+            }
+            else
+            {
+                try { queue.dequeue(); }
+                catch (java.util.NoSuchElementException e)
+                    { /* Ignore empty queue exception */ }
+            }
         }
     }
 }
